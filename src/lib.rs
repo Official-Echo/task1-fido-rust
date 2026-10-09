@@ -17,10 +17,26 @@ impl<T> Node<T> {
     }
 }
 
-pub struct TwoThirdsOfLinkedList;
+#[derive(Debug, Default, PartialEq, PartialOrd)]
+pub struct TwoThirdsOfLinkedList<T> {
+    pub head: Option<Box<Node<T>>>,
+}
 
-impl TwoThirdsOfLinkedList {
-    pub fn get_two_thirds_node<T>(head: &Node<T>) -> Option<&Node<T>> {
+impl<T> TwoThirdsOfLinkedList<T> {
+    pub const fn new() -> Self {
+        Self { head: None }
+    }
+
+    pub fn prepend(&mut self, data: T) {
+        let next = self.head.take();
+        self.head = Some(Box::new(match next {
+            Some(node) => Node::with_next(data, *node),
+            None => Node::new(data),
+        }));
+    }
+
+    pub fn get_two_thirds_node(&self) -> Option<&Node<T>> {
+        let head = self.head.as_deref()?;
         let mut len = 1usize;
 
         let mut tail = head;
