@@ -1,11 +1,11 @@
 #[derive(Debug)]
 pub struct Node<T> {
     pub data: T,
-    pub next: Option<Box<Node<T>>>,
+    pub next: Option<Box<Self>>,
 }
 
 impl<T> Node<T> {
-    pub fn new(data: T) -> Self {
+    pub const fn new(data: T) -> Self {
         Self { data, next: None }
     }
 
