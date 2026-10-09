@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq, PartialOrd)]
 pub struct Node<T> {
     pub data: T,
     pub next: Option<Box<Self>>,
