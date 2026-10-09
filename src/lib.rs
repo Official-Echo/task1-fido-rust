@@ -27,12 +27,13 @@ impl<T> TwoThirdsOfLinkedList<T> {
         Self { head: None }
     }
 
-    pub fn prepend(&mut self, data: T) {
+    pub fn prepend(&mut self, data: T) -> &mut Self {
         let next = self.head.take();
         self.head = Some(Box::new(match next {
             Some(node) => Node::with_next(data, *node),
             None => Node::new(data),
         }));
+        self
     }
 
     pub fn get_two_thirds_node(&self) -> Option<&Node<T>> {
