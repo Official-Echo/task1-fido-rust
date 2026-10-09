@@ -43,3 +43,6 @@ impl TwoThirdsOfLinkedList {
         Some(current)
     }
 }
+
+#[cfg(test)]
+mod tests;
