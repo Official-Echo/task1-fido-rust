@@ -36,6 +36,13 @@ impl<T> TwoThirdsOfLinkedList<T> {
         self
     }
 
+    pub fn prepend_iter(&mut self, iter: impl IntoIterator<Item = T>) -> &mut Self {
+        for item in iter {
+            self.prepend(item);
+        }
+        self
+    }
+
     pub fn get_two_thirds_node(&self) -> Option<&Node<T>> {
         let head = self.head.as_deref()?;
         let mut len = 1usize;
