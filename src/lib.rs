@@ -28,10 +28,9 @@ impl<T> TwoThirdsOfLinkedList<T> {
     }
 
     pub fn prepend(&mut self, data: T) -> &mut Self {
-        let next = self.head.take();
-        self.head = Some(Box::new(match next {
-            Some(node) => Node::with_next(data, *node),
-            None => Node::new(data),
+        self.head = Some(Box::new(Node {
+            data,
+            next: self.head.take(),
         }));
         self
     }
