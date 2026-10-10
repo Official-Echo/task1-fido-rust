@@ -3,9 +3,17 @@ name = "node-task"
 version = "0.1.0"
 edition = "2024"
 
+[features]
+cli = ["dep:clap"]
+
 [lib]
 path = "src/lib.rs"
 crate-type = ["lib"]
+
+[[bin]]
+name = "node-task"
+path = "src/main.rs"
+required-features = ["cli"]
 
 [profile.release]
 opt-level = 3
@@ -15,3 +23,4 @@ panic = "abort"
 strip = false
 
 [dependencies]
+clap = { version = "4.6.3", optional = true }
