@@ -53,7 +53,7 @@ impl<T> TwoThirdsOfLinkedList<T> {
             curr = next;
             len += 1;
 
-            if len > 2 && (2 * len) / 3 > (2 * (len - 1)) / 3 {
+            if len > 2 && len % 3 != 1 {
                 res = res.next.as_deref()?;
             }
         }
