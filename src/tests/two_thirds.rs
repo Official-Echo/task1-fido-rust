@@ -1,108 +1,69 @@
-use crate::{Node, TwoThirdsOfLinkedList};
+use crate::TwoThirdsOfLinkedList;
+
+#[test]
+fn empty_list_returns_none() {
+    let list: TwoThirdsOfLinkedList<i32> = TwoThirdsOfLinkedList::new();
+
+    assert_eq!(list.get_two_thirds_node(), None);
+}
 
 #[test]
 fn single_node_returns_none() {
-    let head = Node::new(0);
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend(0);
 
-    assert_eq!(TwoThirdsOfLinkedList::get_two_thirds_node(&head), None);
+    assert_eq!(list.get_two_thirds_node(), None);
 }
 
 #[test]
 fn two_nodes_returns_index_zero() {
-    let head = Node::with_next(0, Node::new(1));
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend(1).prepend(0);
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(0)
-    );
+    assert_eq!(list.get_two_thirds_node().map(|n| n.data), Some(0));
 }
 
 #[test]
-fn three_nodes_returns_index_one() {
-    let head = Node::with_next(0, Node::with_next(1, Node::new(2)));
+fn task_example_three_nodes_returns_one() {
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend_iter((0..=2).rev());
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(1)
-    );
+    assert_eq!(list.get_two_thirds_node().map(|n| n.data), Some(1));
 }
 
 #[test]
-fn four_nodes_returns_index_one() {
-    let head = Node::with_next(0, Node::with_next(1, Node::with_next(2, Node::new(3))));
+fn task_example_four_nodes_returns_one() {
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend_iter((0..=3).rev());
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(1)
-    );
+    assert_eq!(list.get_two_thirds_node().map(|n| n.data), Some(1));
 }
 
 #[test]
-fn five_nodes_returns_index_two() {
-    let head = Node::with_next(
-        0,
-        Node::with_next(1, Node::with_next(2, Node::with_next(3, Node::new(4)))),
-    );
+fn task_example_five_nodes_returns_two() {
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend_iter((0..=4).rev());
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(2)
-    );
+    assert_eq!(list.get_two_thirds_node().map(|n| n.data), Some(2));
 }
 
 #[test]
-fn six_nodes_returns_index_three() {
-    let head = Node::with_next(
-        0,
-        Node::with_next(
-            1,
-            Node::with_next(2, Node::with_next(3, Node::with_next(4, Node::new(5)))),
-        ),
-    );
+fn large_list_one_hundred_nodes() {
+    let mut list = TwoThirdsOfLinkedList::new();
+    list.prepend_iter((0..100).rev());
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(3)
-    );
+    assert_eq!(list.get_two_thirds_node().map(|n| n.data), Some(65));
 }
 
 #[test]
-fn seven_nodes_returns_index_three() {
-    let head = Node::with_next(
-        0,
-        Node::with_next(
-            1,
-            Node::with_next(
-                2,
-                Node::with_next(3, Node::with_next(4, Node::with_next(5, Node::new(6)))),
-            ),
-        ),
-    );
+fn comprehensive_range_sweep() {
+    for n in 2..=100 {
+        let mut list = TwoThirdsOfLinkedList::new();
+        list.prepend_iter((0..n).rev());
 
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(3)
-    );
-}
+        let expected_index = (2 * n) / 3 - 1;
+        let actual = list.get_two_thirds_node().map(|node| node.data);
 
-#[test]
-fn eight_nodes_returns_index_four() {
-    let head = Node::with_next(
-        0,
-        Node::with_next(
-            1,
-            Node::with_next(
-                2,
-                Node::with_next(
-                    3,
-                    Node::with_next(4, Node::with_next(5, Node::with_next(6, Node::new(7)))),
-                ),
-            ),
-        ),
-    );
-
-    assert_eq!(
-        TwoThirdsOfLinkedList::get_two_thirds_node(&head).map(|n| n.data),
-        Some(4)
-    );
+        assert_eq!(actual, Some(expected_index), "Test failed for n = {n}");
+    }
 }
