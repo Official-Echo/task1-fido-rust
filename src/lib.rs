@@ -44,22 +44,19 @@ impl<T> TwoThirdsOfLinkedList<T> {
 
     pub fn get_two_thirds_node(&self) -> Option<&Node<T>> {
         let head = self.head.as_deref()?;
+        let sec = head.next.as_deref()?;
 
-        let mut curr = head;
-        let mut len = 1usize;
+        let mut curr = sec;
+        let mut len = 2usize;
         let mut res = head;
 
         while let Some(next) = curr.next.as_deref() {
             curr = next;
             len += 1;
 
-            if len > 2 && len % 3 != 1 {
+            if len % 3 != 1 {
                 res = res.next.as_deref()?;
             }
-        }
-
-        if len <= 1 {
-            return None;
         }
 
         Some(res)
